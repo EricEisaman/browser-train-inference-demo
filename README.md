@@ -12,7 +12,7 @@ Installable as a Progressive Web App (manifest + service worker via `@vite-pwa/s
 ## Prerequisites
 
 - Node 22+
-- Sibling [piston](../piston) checkout for one-time ONNX convert (`scripts/export_inference`)
+- [piston](https://github.com/EricEisaman/piston) checkout for one-time ONNX convert (`scripts/export_inference`)
 - Python venv in piston with `torch` + `safetensors` (e.g. `piston/.venv-export`)
 
 ## Convert the TinyStories checkpoint
