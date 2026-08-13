@@ -1,0 +1,404 @@
+{
+  "architecture": "decoder",
+  "blockSize": 32,
+  "config": {
+    "preset": "tinystories-onnx",
+    "training": {
+      "logSteps": 20,
+      "batchSize": 4,
+      "validation": {
+        "present": true,
+        "valSteps": 500,
+        "batchSize": 4,
+        "temperature": 0,
+        "useKvCache": false,
+        "completions": {
+          "present": true,
+          "decodingBatchSize": 1,
+          "amount": "subset",
+          "subsetSize": 1
+        }
+      },
+      "limitTraining": {
+        "present": false,
+        "steps": 50000
+      },
+      "labelSmoothing": {
+        "present": false,
+        "value": 0.0001
+      },
+      "dropout": {
+        "present": false,
+        "embedding": 0.1,
+        "transformer": {
+          "attention": 0.1,
+          "residual": 0.1
+        },
+        "rnn": {
+          "interLayer": 0.1
+        }
+      },
+      "randomSeed": {
+        "present": true,
+        "value": "browser train"
+      },
+      "gradNorm": {
+        "track": true,
+        "errorIfNonfinite": true
+      },
+      "clipGradNorm": {
+        "present": false,
+        "value": 1
+      },
+      "useWeakTensorReferences": true,
+      "sharedObjectAllocation": false,
+      "cachingEnabled": false,
+      "inplaceSupport": true,
+      "enableVisualization": false,
+      "vramLimitMb": {
+        "present": true,
+        "value": 8192
+      },
+      "checkpointEverySteps": {
+        "present": true,
+        "value": 40
+      },
+      "restartEverySteps": 1000
+    },
+    "data": {
+      "dataset": "tinystories",
+      "trainOnPrompt": false,
+      "maskRatio": 0.15,
+      "specialTokens": {
+        "includeEos": true
+      },
+      "datasets": {
+        "addition": {
+          "maxNumber": 20,
+          "includeExpressionTokens": true
+        },
+        "copy-memory": {
+          "prefixLength": 3,
+          "distractorLength": 12,
+          "vocabSize": 10,
+          "recallTokenEnabled": true,
+          "includeSeparators": false
+        },
+        "dyck": {
+          "sequenceLength": 10,
+          "order": 2,
+          "onlyTrainOnClosingBrackets": false
+        },
+        "elman": {},
+        "marked-addition": {
+          "sequenceLength": 8,
+          "maxInputValue": 10,
+          "maxSumValue": 100,
+          "includeEqualsToken": true
+        },
+        "modular-addition": {
+          "maxNumber": 500,
+          "modulo": 113,
+          "includeExpressionTokens": true
+        },
+        "parity": {
+          "sequenceLength": 4,
+          "includeColon": true
+        },
+        "random": {
+          "sequenceLength": 5,
+          "responseLength": 1,
+          "vocabSize": 10
+        },
+        "repeat": {
+          "sequenceLength": 3,
+          "maxNumber": 5,
+          "includeCommas": false,
+          "includeColon": true
+        },
+        "reverse": {
+          "sequenceLength": 3,
+          "maxNumber": 5,
+          "includeCommas": false,
+          "includeColon": true
+        },
+        "slapjack": {
+          "sequenceLength": 5,
+          "slapOnDoubles": true,
+          "slapOnSandwiches": true,
+          "includeColon": true
+        },
+        "sort": {
+          "sequenceLength": 5,
+          "maxNumber": 26,
+          "includeCommas": false,
+          "includeColon": true
+        },
+        "temporal-order": {
+          "sequenceLength": 13,
+          "vocabSize": 10,
+          "includeSeparators": false
+        },
+        "two-sum": {
+          "sequenceLength": 4,
+          "maxNumber": 15,
+          "includeCommas": false,
+          "includeExpressionTokens": true
+        },
+        "zeros": {
+          "sequenceLength": 5
+        }
+      },
+      "natural": {
+        "contextSize": 32,
+        "vocabSize": 8192
+      }
+    },
+    "model": {
+      "family": "transformer",
+      "topology": "decoder",
+      "layers": 6,
+      "tieEmbeddingsAndLmHead": false,
+      "roundVocabSizeToNearestMultiple": {
+        "present": false,
+        "value": 64
+      },
+      "encoderDecoder": {
+        "encoderLayers": 1,
+        "decoderLayers": 1
+      },
+      "layerNormalization": {
+        "type": "rmsnorm",
+        "eps": 1e-05,
+        "transformer": {
+          "present": true,
+          "position": "pre"
+        },
+        "rnn": {
+          "withinCell": true,
+          "betweenLayers": false
+        }
+      },
+      "transformer": {
+        "headDim": 32,
+        "initialization": {
+          "present": true,
+          "std": 0.02,
+          "projections": {
+            "attention": {
+              "present": true,
+              "strategy": "zero"
+            },
+            "mlp": {
+              "present": true,
+              "strategy": "zero"
+            },
+            "lmHead": {
+              "present": true,
+              "strategy": "layer-scaled"
+            }
+          }
+        },
+        "attention": {
+          "present": true,
+          "nKeyValueHeads": 10,
+          "groupedQueryAttention": {
+            "present": false,
+            "queryHeadsPerKeyValueHead": 2
+          },
+          "gating": {
+            "present": false,
+            "activation": "sigmoid",
+            "sites": {
+              "afterSdpaOutput": true,
+              "afterValueProjection": false,
+              "afterKeyProjection": false,
+              "afterQueryProjection": false,
+              "afterFinalOutputProjection": false
+            }
+          },
+          "sinks": {
+            "present": false
+          }
+        },
+        "positionalEncoding": {
+          "present": true,
+          "type": "learned",
+          "alibi": {
+            "maxBias": 8
+          },
+          "rope": {
+            "base": 10000
+          }
+        },
+        "normalization": {
+          "qkNorm": {
+            "present": false,
+            "type": "rmsnorm",
+            "eps": 1e-05
+          },
+          "softcap": {
+            "attention": {
+              "present": false,
+              "value": 30
+            },
+            "logits": {
+              "present": false,
+              "value": 30
+            }
+          }
+        },
+        "mlp": {
+          "present": true,
+          "activation": "gelu",
+          "hiddenExpansionFactor": 4,
+          "variant": "standard"
+        }
+      },
+      "rnn": {
+        "cellType": "lstm",
+        "embedding": {
+          "type": "learned",
+          "learned": {
+            "size": 16
+          }
+        },
+        "separateHiddenSize": {
+          "present": false,
+          "value": 16
+        },
+        "initialization": {
+          "present": true,
+          "xavierInputColumns": {
+            "present": true,
+            "distribution": "uniform"
+          },
+          "orthogonalRecurrentColumns": true,
+          "perGateOrthogonalBlocks": true,
+          "zeroBiases": true,
+          "gru": {
+            "updateGateBias": {
+              "present": false,
+              "value": 0
+            }
+          },
+          "lstm": {
+            "forgetGateBias": {
+              "present": true,
+              "value": 1
+            }
+          }
+        },
+        "hiddenStateProjection": {
+          "present": false,
+          "size": 16
+        },
+        "encoder": {
+          "bidirectional": false
+        },
+        "encoderDecoderAttention": {
+          "present": false,
+          "type": "additive",
+          "inputFeedingProjection": true,
+          "multiplicative": {
+            "scaleByInverseSqrtHiddenSize": true
+          }
+        }
+      }
+    },
+    "optimizer": {
+      "type": "Muon",
+      "lr": 0.0001,
+      "weightDecay": {
+        "present": true,
+        "value": 0.01,
+        "useWeightDecayGroups": true
+      },
+      "warmupSteps": {
+        "present": true,
+        "value": 100
+      },
+      "lrScheduler": {
+        "present": true,
+        "type": "cosine",
+        "stepSchedule": {
+          "stepSize": 100,
+          "gamma": 0.8
+        },
+        "constantSchedule": {
+          "factor": 0.3333333333333333,
+          "totalIters": 100
+        },
+        "cosineAnnealingSchedule": {
+          "tMax": 500,
+          "etaMin": 1e-05
+        },
+        "exponentialSchedule": {
+          "gamma": 0.999
+        },
+        "linearSchedule": {
+          "startFactor": 1,
+          "endFactor": 0.3333333333333333,
+          "totalIters": 1000
+        }
+      },
+      "adam": {
+        "beta1": 0.9,
+        "beta2": 0.999,
+        "eps": 1e-08,
+        "amsgrad": false
+      },
+      "sgd": {
+        "momentum": 0.9,
+        "dampening": 0,
+        "nesterov": false
+      },
+      "muon": {
+        "momentum": 0.95,
+        "nsSteps": 5,
+        "nesterov": true
+      }
+    },
+    "visualization": {
+      "script": null,
+      "example": "attention-activations",
+      "target": "validation",
+      "selectedValidation": {
+        "exampleIndex": 0,
+        "tokenIndex": 0
+      }
+    },
+    "version": 1
+  },
+  "dataset": "tinystories",
+  "embeddingSize": 320,
+  "exportProfile": {
+    "attentionGating": false,
+    "attentionPresent": true,
+    "gqa": false,
+    "mlpGated": false,
+    "mlpPresent": true,
+    "nHeads": 10,
+    "nKvHeads": 10,
+    "positionalEncoding": "learned",
+    "qkNorm": false,
+    "sinks": false,
+    "softcapAttention": false,
+    "softcapLogits": false
+  },
+  "format": "browser-train-inference-v1",
+  "layers": {
+    "decoder": 6,
+    "encoder": 0
+  },
+  "numSteps": 2920,
+  "tokenizer": {
+    "kind": "hf",
+    "vocabSize": 8192,
+    "tokenizerFile": "tokenizer.json",
+    "bosId": 2,
+    "eosId": 3,
+    "padId": null
+  },
+  "vocabSize": 8192
+}

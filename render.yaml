@@ -1,0 +1,11 @@
+# Browser Train inference demo — static SvelteKit build served as a Node web service.
+services:
+  - type: web
+    name: browser-train-inference-demo
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npx --yes serve build -l $PORT --single
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
