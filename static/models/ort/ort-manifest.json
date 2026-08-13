@@ -1,0 +1,25 @@
+{
+  "architecture": "decoder",
+  "onnx": "model.onnx",
+  "inputs": [
+    {
+      "name": "input_ids",
+      "dtype": "int64"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "logits",
+      "dtype": "float32"
+    }
+  ],
+  "vocabSize": 8192,
+  "embeddingSize": 320,
+  "tokenizer": {
+    "kind": "hf",
+    "tokenizerFile": "tokenizer.json",
+    "vocabSize": 8192,
+    "installedFrom": "/Users/eeisaman/Documents/GitHub/piston/examples/piston-train-toy/static/tokenizer/tinystories/8192/tokenizer.json"
+  },
+  "dataset": "tinystories"
+}

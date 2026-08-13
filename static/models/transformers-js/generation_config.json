@@ -1,0 +1,8 @@
+{
+  "bos_token_id": 2,
+  "eos_token_id": 3,
+  "pad_token_id": null,
+  "decoder_start_token_id": 2,
+  "max_length": 32,
+  "do_sample": false
+}

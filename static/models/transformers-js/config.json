@@ -1,0 +1,25 @@
+{
+  "architectures": [
+    "GPT2LMHeadModel"
+  ],
+  "model_type": "gpt2",
+  "vocab_size": 8192,
+  "n_embd": 320,
+  "n_head": 10,
+  "n_layer": 6,
+  "n_positions": 32,
+  "n_ctx": 32,
+  "max_position_embeddings": 32,
+  "activation_function": "gelu_new",
+  "resid_pdrop": 0.0,
+  "embd_pdrop": 0.0,
+  "attn_pdrop": 0.0,
+  "layer_norm_epsilon": 1e-05,
+  "initializer_range": 0.02,
+  "bos_token_id": 2,
+  "eos_token_id": 3,
+  "pad_token_id": null,
+  "transformers_version": "4.40.0",
+  "browser_train_architecture": "decoder",
+  "browser_train_dataset": "tinystories"
+}
